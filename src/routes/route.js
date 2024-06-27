@@ -1,9 +1,8 @@
-import { Router } from "express";
-import { receiveData } from "../controller/addandgetdata.js";
-import { sendData } from "../controller/addandgetdata.js";
+const { Router } = require("express");
+const { receiveData, sendData } = require("../controller/addandgetdata.js");
 
 const router = Router();
 
 router.route("/").get(sendData).post(receiveData);
 
-export default router;
+module.exports = router;

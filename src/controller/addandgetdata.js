@@ -1,6 +1,6 @@
-import { Company } from "../models/company.js";
+const { Company } = require("../models/company.js");
 
-export const receiveData = async (req, res) => {
+const receiveData = async (req, res) => {
   try {
     const {
       portfolioCompanyName,
@@ -64,7 +64,7 @@ export const receiveData = async (req, res) => {
   }
 };
 
-export const sendData = async (_, res) => {
+const sendData = async (_, res) => {
   try {
     const companies = await Company.find();
     res.status(200).json({ companies, message: "successfully send data" });
@@ -73,3 +73,5 @@ export const sendData = async (_, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+module.exports = { receiveData, sendData };

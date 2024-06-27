@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+const { Schema, model } = require("mongoose");
 
 const recentUploadSchema = new Schema({
   name: {
@@ -24,24 +24,19 @@ const companySchema = new Schema({
   },
   capitalinvested: {
     type: Number,
-    required: true,
   },
   companyindustrycategory: {
     type: String,
     enum: ["Technology", "Healthcare", "Fintech", "Other"],
-    required: true,
   },
   companylogo: {
     type: String,
-    required: true,
   },
   investmentdate: {
     type: Date,
-    required: true,
   },
   currentvaluation: {
     type: Number,
-    required: true,
   },
   anyrecentexit: {
     type: Number,
@@ -50,4 +45,6 @@ const companySchema = new Schema({
   recentdocumentuploads: [recentUploadSchema],
 });
 
-export const Company = new model("Company", companySchema);
+const Company = new model("Company", companySchema);
+
+module.exports = { Company };

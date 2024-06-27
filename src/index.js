@@ -1,9 +1,9 @@
-import { connectToDB } from "./mongodb/db.js";
-import express from "express";
-import dataRouter from "./routes/route.js";
-import cors from "cors";
+const connectToDB = require("./mongodb/db.js");
+const express = require("express");
+const dataRouter = require("./routes/route.js");
+const cors = require("cors");
 
-export const app = express();
+const app = express();
 
 app.use(cors());
 app.use(express.json());
