@@ -1,10 +1,10 @@
-require("dotenv").config();
+require("dotenv").config()
 const connectToDB = require("./mongodb/db.js");
 const express = require("express");
 const dataRouter = require("./routes/dataRoute.js");
 const analyticsRouter = require("./routes/analyticsRoute.js");
 const cors = require("cors");
-require("dotenv").config();
+require("dotenv").config()
 const app = express();
 app.use(cors());
 app.use(express.json());
