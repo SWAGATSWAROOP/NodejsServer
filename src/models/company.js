@@ -21,6 +21,7 @@ const companySchema = new Schema({
     type: String,
     index: true,
     required: true,
+    unique: true
   },
   capitalinvested: {
     type: Number,
@@ -28,6 +29,7 @@ const companySchema = new Schema({
   companyindustrycategory: {
     type: String,
     enum: ["Technology", "Healthcare", "Fintech", "Other"],
+    index: true
   },
   companylogo: {
     type: String,
