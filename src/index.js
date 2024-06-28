@@ -1,7 +1,8 @@
 require("dotenv").config()
 const connectToDB = require("./mongodb/db.js");
 const express = require("express");
-const dataRouter = require("./routes/route.js");
+const dataRouter = require("./routes/dataRoute.js");
+const analyticsRouter = require("./routes/analyticsRoute.js");
 const cors = require("cors");
 require("dotenv").config()
 const app = express();
@@ -14,6 +15,8 @@ app.get("/", (_, res) => {
 });
 
 app.use("/api/data", dataRouter);
+app.use("/api/analytics", analyticsRouter);
+
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is running is port ${PORT}`);
