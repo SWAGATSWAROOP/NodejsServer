@@ -3,19 +3,30 @@ const connectToDB = require("./mongodb/db.js");
 const express = require("express");
 const dataRouter = require("./routes/dataRoute.js");
 const analyticsRouter = require("./routes/analyticsRoute.js");
+const authRouter = require("./routes/authRoute.js");
+const { checkToken } = require("./middleware/checkToken.js");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
-require("dotenv").config()
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+
 connectToDB();
 app.get("/", (_, res) => {
   return res.send("<h1>Working</h1>");
 });
 
-app.use("/api/data", dataRouter);
-app.use("/api/analytics", analyticsRouter);
+app.use("/home", (_, res) => {
+  return res.send("Working");
+});
+// Unprotected Routes
+app.use("/auth", authRouter);
+
+// Protected Route
+app.use("/api/data", checkToken, dataRouter);
+app.use("/api/analytics", checkToken, analyticsRouter);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
