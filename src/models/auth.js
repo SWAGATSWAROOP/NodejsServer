@@ -2,38 +2,59 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const authSchema = new mongoose.Schema(
-  {
-    email: {
-      type: String,
-      required: true,
-      index: true,
-      unique: true,
-      trim: true,
-      lowercase: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
 
-authSchema.pre("save", async function (next) {
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    lowercase: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  phoneNumber: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  },
+  category: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    required: true,
+    enum: ['basic', 'admin'], 
+    default: 'basic',
+  },
+  status: {
+    type: String,
+    required: true,
+    enum: ['active', 'inactive'],
+  }
+});
+
+userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
-authSchema.methods.isPasswordCorrect = async function (password) {
+userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-authSchema.methods.generateBearerToken = function () {
+userSchema.methods.generateBearerToken = function () {
   return jwt.sign(
     {
       id: this._id,
@@ -46,6 +67,6 @@ authSchema.methods.generateBearerToken = function () {
   );
 };
 
-const Auth = mongoose.model("Auth", authSchema);
+const Auth = mongoose.model("Auth", userSchema);
 
 module.exports = { Auth };
