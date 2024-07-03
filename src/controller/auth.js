@@ -37,11 +37,10 @@ const signIn = async (req, res) => {
 
 const signUp = async (req, res) => {
   try {
-    let { email, password, username, phonenumber, category, role, status } =
-      req.body;
+    let { email, password, username, phonenumber, category, role } = req.body;
 
     if (
-      [email, password, username, phonenumber, category, status].some(
+      [email, password, username, phonenumber, category].some(
         (field) => field === undefined
       )
     ) {
@@ -69,7 +68,6 @@ const signUp = async (req, res) => {
         username,
         phonenumber,
         category,
-        status,
       });
     } else {
       await Auth.create({
@@ -79,7 +77,6 @@ const signUp = async (req, res) => {
         phonenumber,
         category,
         role,
-        status,
       });
     }
 
