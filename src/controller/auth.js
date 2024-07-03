@@ -37,10 +37,15 @@ const signIn = async (req, res) => {
 
 const signUp = async (req, res) => {
   try {
-    let { email, password } = req.body;
+    let { email, password, username, phonenumber, category, role, status } =
+      req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email or Password is missing" });
+    if (
+      [email, password, username, phonenumber, category, status].some(
+        (field) => field === undefined
+      )
+    ) {
+      return res.status(400).json({ message: "Some fields are missing" });
     }
 
     email = email.toLowerCase();
@@ -57,10 +62,26 @@ const signUp = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    await Auth.create({
-      email,
-      password,
-    });
+    if (!role) {
+      await Auth.create({
+        email,
+        password,
+        username,
+        phonenumber,
+        category,
+        status,
+      });
+    } else {
+      await Auth.create({
+        email,
+        password,
+        username,
+        phonenumber,
+        category,
+        role,
+        status,
+      });
+    }
 
     return res.status(200).json({ message: "User created successfully" });
   } catch (error) {
