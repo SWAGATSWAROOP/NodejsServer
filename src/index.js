@@ -11,7 +11,6 @@ const editUserRouter = require("./routes/editUser.js");
 
 //Middlewares
 const { checkToken } = require("./middleware/checkToken.js");
-const { checkAdmin } = require("./middleware/checkAdmin.js");
 
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -35,7 +34,7 @@ app.use("/auth", authRouter);
 
 // Protected Route
 app.use("/api/user", checkToken, editUserRouter);
-app.use("/api/data", checkToken, checkAdmin, dataRouter);
+app.use("/api/data", checkToken, dataRouter);
 app.use("/api/analytics", checkToken, analyticsRouter);
 app.use("/users", checkToken, userRouter);
 
