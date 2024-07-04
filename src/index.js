@@ -1,15 +1,20 @@
 require("dotenv").config();
 const connectToDB = require("./mongodb/db.js");
 const express = require("express");
+
+// Routers
 const dataRouter = require("./routes/dataRoute.js");
 const analyticsRouter = require("./routes/analyticsRoute.js");
 const authRouter = require("./routes/authRoute.js");
 const userRouter = require("./routes/getUsers.js");
 const editUserRouter = require("./routes/editUser.js");
+
+//Middlewares
 const { checkToken } = require("./middleware/checkToken.js");
+const { checkAdmin } = require("./middleware/checkAdmin.js");
+
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const e = require("express");
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -30,7 +35,7 @@ app.use("/auth", authRouter);
 
 // Protected Route
 app.use("/api/user", checkToken, editUserRouter);
-app.use("/api/data", checkToken, dataRouter);
+app.use("/api/data", checkToken, checkAdmin, dataRouter);
 app.use("/api/analytics", checkToken, analyticsRouter);
 app.use("/users", checkToken, userRouter);
 

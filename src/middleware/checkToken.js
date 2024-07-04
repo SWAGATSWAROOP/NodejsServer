@@ -8,7 +8,8 @@ const checkToken = async (req, res, next) => {
     }
     const bearerToken = token.split(" ")[1];
     const decoded = jwt.verify(bearerToken, process.env.TOKEN_SECRET);
-    req.userid = decoded;
+    req.userid = decoded.id;
+    console.log("UserID set in req:", req.userid);
     next();
   } catch (error) {
     console.log(error);

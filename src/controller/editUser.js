@@ -1,17 +1,21 @@
 const { Auth } = require("../models/auth.js");
 
 const editUserDetails = async (req, res) => {
-  const { userId } = req.params;
+  const userid = req.userid;
   let updateData = { ...req.body };
 
   // Remove password and _id fields from updateData if they exist
   delete updateData.password;
+  delete updateData.email;
+  delete updateData.userid;
   delete updateData._id;
 
-  console.log("Attempting to update user with _id:", userId); // Logging the _id
+  console.log("Attempting to update user with _id:", userid); // Logging the _id
 
   try {
-    const user = await Auth.findByIdAndUpdate(userId, updateData, { new: true });
+    const user = await Auth.findByIdAndUpdate(userid, updateData, {
+      new: true,
+    });
     console.log("Found user:", user); // Logging the found user
 
     if (!user) {
@@ -20,10 +24,12 @@ const editUserDetails = async (req, res) => {
     const userObject = user.toObject();
     delete userObject.password;
 
-    res.status(200).json({ message: "User updated successfully", user: userObject });  } 
-    catch (error) {
+    return res
+      .status(200)
+      .json({ message: "User updated successfully", user: userObject });
+  } catch (error) {
     console.error("Error updating user:", error);
-    res.status(500).send("Server Error");
+    return res.status(500).json({ message: "Server Error" });
   }
 };
 

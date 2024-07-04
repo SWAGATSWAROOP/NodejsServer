@@ -1,8 +1,8 @@
 const { Router } = require("express");
-const {editUserDetails} = require("../controller/editUser.js");
+const { editUserDetails } = require("../controller/editUser.js");
 
 const router = Router();
 
-router.route("/:userId").put(editUserDetails);
+router.route("/").put(editUserDetails);
 
 module.exports = router;
