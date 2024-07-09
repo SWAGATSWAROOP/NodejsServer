@@ -11,6 +11,7 @@ const editUserRouter = require("./routes/editUser.js");
 
 //Middlewares
 const { checkToken } = require("./middleware/checkToken.js");
+const { checkAdmin } = require("./middleware/checkAdmin.js");
 
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -31,12 +32,16 @@ app.use("/home", (_, res) => {
 
 // Unprotected Routes
 app.use("/auth", authRouter);
+app.use("/api/user", editUserRouter);
+app.use("/api/data", dataRouter);
+app.use("/api/analytics", analyticsRouter);
+app.use("/users", userRouter);
 
 // Protected Route
-app.use("/api/user", checkToken, editUserRouter);
-app.use("/api/data", checkToken, dataRouter);
-app.use("/api/analytics", checkToken, analyticsRouter);
-app.use("/users", checkToken, userRouter);
+app.use("/v1/user", checkToken, checkAdmin, editUserRouter);
+app.use("/v1/data", checkToken, checkAdmin, dataRouter);
+app.use("/v1/analytics", checkToken, checkAdmin, analyticsRouter);
+app.use("/v1/users", checkToken, checkAdmin, userRouter);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {

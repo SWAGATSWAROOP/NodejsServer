@@ -1,12 +1,11 @@
 const { Auth } = require("../models/auth.js");
 
 const editUserDetails = async (req, res) => {
-  const userid = req.userid;
+  const { userid } = req.body;
+  console.log(userid);
   let updateData = { ...req.body };
 
   // Remove password and _id fields from updateData if they exist
-  delete updateData.password;
-  delete updateData.email;
   delete updateData.userid;
   delete updateData._id;
 
