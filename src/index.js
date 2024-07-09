@@ -9,6 +9,7 @@ const authRouter = require("./routes/authRoute.js");
 const userRouter = require("./routes/getUsers.js");
 const editUserRouter = require("./routes/editUser.js");
 const tableRouter = require("./routes/tableRoute.js");
+const documentSessionRouter = require("./routes/documentRoute.js");
 
 //Middlewares
 const { checkToken } = require("./middleware/checkToken.js");
@@ -38,6 +39,7 @@ app.use("/api/data", dataRouter);
 app.use("/api/analytics", analyticsRouter);
 app.use("/users", userRouter);
 app.use("/table", tableRouter);
+app.use("/document", documentSessionRouter);
 
 // Protected Route
 app.use("/v1/user", checkToken, checkAdmin, editUserRouter);
