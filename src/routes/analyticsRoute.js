@@ -1,8 +1,8 @@
 const { Router } = require("express");
-const { analytics } = require("../controller/analytics.js");
+const { analytics, totalInvested } = require("../controller/analytics.js");
 
 const router = Router();
 
-router.route("/").get(analytics);
+router.route("/").get(analytics).post(totalInvested);
 
 module.exports = router;
